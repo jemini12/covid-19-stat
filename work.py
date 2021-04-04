@@ -45,8 +45,8 @@ def c0(x):
 
 lists = sorted(documents,key=c0,reverse=False)
 es_documents = []
-lastDiff = 0
-
+lastdecideDiff = 0
+lastdeathDiff = 0
 for data in lists:
 
    if not 'careCnt' in data: data['careCnt'] = 0
@@ -61,8 +61,9 @@ for data in lists:
                    "careCnt": int(data['careCnt']),
                    "clearCnt": int(data['clearCnt']),
                    "deathCnt": int(data['deathCnt']),
+                   "deathDiff": int(data['deathCnt']) - lastdeathDiff,
                    "decideCnt": int(data['decideCnt']),
-                   "decideDiff": int(data['decideCnt']) - lastDiff,
+                   "decideDiff": int(data['decideCnt']) - lastdecideDiff,
                    "examCnt": int(data['examCnt']),
                    "resutlNegCnt": int(data['resutlNegCnt']),
                    "createDt": data['createDt'],
@@ -70,7 +71,8 @@ for data in lists:
               }
            }
    )
-   lastDiff = int(data['decideCnt'])
+   lastdecideDiff = int(data['decideCnt'])
+   lastdeathDiff = int(data['deathCnt'])
 
 helpers.bulk(es, es_documents)
 print(es_documents) 
